@@ -1,5 +1,5 @@
 .header {
-    background-color: #ffffff;
+    background-color: #F9F8F8;
     padding: 10px 5%; /* Reduced vertical padding */
     display: flex;
     flex-direction: column;
@@ -35,12 +35,13 @@
 }
 
 .nav-links a {
+    font-family: 'Montserrat', sans-serif;
     text-decoration: none;
-    color: #000;
-    font-weight: 500;
+    font-weight: bold;
+    color: #3B252C;
     font-size: 16px;
     transition: color 0.2s;
-    padding: 5px 10px; /* Optional: controls click area */
+    padding: 5px 10px;
 }
 
 .nav-links a:hover {
