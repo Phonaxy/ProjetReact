@@ -3,6 +3,8 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Loader from "../components/Loader";
 import "../css/details.css";
+import "../css/aura.css";
+
 
 const Details = () => {
     const [cards, setCards] = useState([]);
@@ -47,10 +49,17 @@ const Details = () => {
                     {cards.map((card) => (
 
                         <div key={card.id} className={`card-item aura-${card.color?.toLowerCase() || "default"}`}>
+                            {/* ✨ Floating dots */}
+                            <span className="particle"></span>
+                            <span className="particle"></span>
+                            <span className="particle"></span>
+                            <span className="particle"></span>
+
                             <button className="card-button" aria-label={`Afficher la carte ${card.name}`}>
                                 <img src={card.images.large} alt={card.name}/>
                             </button>
                         </div>
+
 
                     ))}
                 </div>
