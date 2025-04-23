@@ -31,6 +31,7 @@
 }
 
 .video-overlay-content {
+    font-family: 'Montserrat', sans-serif;
     color: white;
     text-align: center;
     z-index: 1;

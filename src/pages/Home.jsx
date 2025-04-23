@@ -19,7 +19,7 @@ function Home() {
 
                 <div className="video-overlay-content">
                     <h1>Bienvenue</h1>
-                    <p>Explore notre univers</p>
+                    <p>Explore notre collection</p>
                 </div>
             </main>
 
