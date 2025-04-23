@@ -48,3 +48,53 @@
     z-index: 0;
 }
 
+.title-news {
+    font-family: 'Montserrat', sans-serif;
+    text-align: center;
+    margin: 30px 0;
+    font-size: 2rem;
+    color: #E1BC29;
+}
+
+.news-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 par ligne */
+    gap: 40px; /* Plus d’espace entre les cartes */
+    padding: 40px 60px;
+    justify-items: center;
+}
+
+.card {
+    width: 240px;
+    background-color: #fff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-radius: 2px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.card img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    display: block;
+}
+
+.card h3 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 10px 12px 4px;
+    color: #222;
+}
+
+.card p {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.9rem;
+    color: #666;
+    margin: 0 12px 12px;
+}
+
+
