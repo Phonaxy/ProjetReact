@@ -1,0 +1,113 @@
+.card-item {
+    position: relative;
+    z-index: 0;
+    overflow: visible;
+}
+
+/* GLOW AURA */
+.card-item::before {
+    content: "";
+    position: absolute;
+    top: -25%;
+    left: -25%;
+    width: 150%;
+    height: 150%;
+    border-radius: 50%;
+    z-index: -1;
+    filter: blur(50px);
+    opacity: 0.4;
+    pointer-events: none;
+    transition: opacity 0.3s ease-in-out;
+    animation: aura-orbit 15s linear infinite;
+}
+
+/* Aura color themes */
+.aura-purple::before { background: radial-gradient(circle at center, #a855f7 10%, transparent 90%); }
+.aura-red::before { background: radial-gradient(circle at center, #ef4444 10%, transparent 90%); }
+.aura-blue::before { background: radial-gradient(circle at center, #3b82f6 10%, transparent 90%); }
+.aura-green::before { background: radial-gradient(circle at center, #10b981 10%, transparent 90%); }
+.aura-yellow::before { background: radial-gradient(circle at center, #facc15 10%, transparent 90%); }
+.aura-black::before { background: radial-gradient(circle at center, #111 10%, transparent 90%); }
+.aura-default::before { background: radial-gradient(circle at center, #999 10%, transparent 90%); }
+
+@keyframes aura-orbit {
+    0% { transform: rotate(0deg) scale(1); }
+    25% { transform: rotate(90deg) scale(1.02); }
+    50% { transform: rotate(180deg) scale(1.04); }
+    75% { transform: rotate(270deg) scale(1.02); }
+    100% { transform: rotate(360deg) scale(1); }
+}
+
+/* PARTICLES */
+.card-item .particle {
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 1;
+    box-shadow: 0 0 8px currentColor;
+    opacity: 0;
+    transition: opacity 0.15s ease-in-out;
+}
+
+.card-item:hover .particle {
+    opacity: 1;
+    animation: glitter 2s ease-in-out, particleDrift 6s ease-in-out;
+    animation-iteration-count: infinite;
+}
+
+@keyframes glitter {
+    0%, 100% { opacity: 0.6; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.4); }
+}
+
+@keyframes particleDrift {
+    0% {
+        transform: translate(0, 0);
+        opacity: 0; /* Optional fade-in */
+    }
+    10% {
+        opacity: 1; /* Fully visible shortly after starting */
+    }
+    100% {
+        transform: translate(calc(var(--rand-x) * 2), calc(var(--rand-y) * 2));
+        opacity: 0; /* Fade out as it reaches the end */
+    }
+}
+
+
+/* Random particle placement around the card */
+.card-item .particle:nth-child(1) {
+    top: -10px;
+    left: 50%;
+    --rand-x: -8px;
+    --rand-y: -4px;
+}
+.card-item .particle:nth-child(2) {
+    top: 50%;
+    right: -12px;
+    --rand-x: 6px;
+    --rand-y: 4px;
+}
+.card-item .particle:nth-child(3) {
+    bottom: -10px;
+    left: 40%;
+    --rand-x: -5px;
+    --rand-y: 3px;
+}
+.card-item .particle:nth-child(4) {
+    top: 20%;
+    left: -10px;
+    --rand-x: 7px;
+    --rand-y: -6px;
+}
+
+/* Color-coded particles */
+.aura-purple .particle { background: #d98eff; color: #d98eff; }
+.aura-red .particle { background: #ff7f7f; color: #ff7f7f; }
+.aura-blue .particle { background: #7fcfff; color: #7fcfff; }
+.aura-green .particle { background: #6ee7b7; color: #6ee7b7; }
+.aura-yellow .particle { background: #fef08a; color: #fef08a; }
+.aura-black .particle { background: #666; color: #666; }
+.aura-default .particle { background: #ccc; color: #ccc; }
