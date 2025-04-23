@@ -1,0 +1,45 @@
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 100px 1px; /*Gestion du gap des espaces : entre les lignes et entre les cards
+                    INFO : Le gap entre les cards dépend AUSSI du max width des cards*/
+    padding: 50px 8%;
+    justify-items: center;
+}
+
+.card-item {
+    width: 100%;
+    max-width: 270px;     /* 👈Controle pour agrandir ou rétrecir  les cards*/
+    aspect-ratio: 2 / 3;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s ease-in-out;
+}
+
+
+.card-item:hover {
+    transform: scale(1.05);
+}
+
+.card-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    margin: 0;
+    outline: none;
+    width: 100%;
+    height: 100%; /* ✅ Stretch to fill */
+    display: block;
+}
+
+.card-button img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* ✅ Fully fill the card area */
+    border-radius: 8px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    margin: 0;
+    padding: 0;
+}
