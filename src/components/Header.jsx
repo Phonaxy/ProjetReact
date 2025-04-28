@@ -14,7 +14,7 @@ const Header = () => {
             <nav className="nav-links">
                 <Link to="/details">Liste des cartes</Link>
                 <Link to="/news">Actualités</Link>
-                <a href="https://example.com/regles" target="_blank" rel="noopener noreferrer">Règles</a>
+                <Link to="/rules">Règles</Link>
             </nav>
         </header>
     );
