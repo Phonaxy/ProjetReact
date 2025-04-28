@@ -37,7 +37,7 @@ const Details = () => {
     return (
         <div>
             <Header />
-            <h1>Liste des Cartes</h1>
+            <h1 className="title-details">Liste des Cartes</h1>
 
             {/* ✅ Loader en attendant */}
             {!loading ? (
