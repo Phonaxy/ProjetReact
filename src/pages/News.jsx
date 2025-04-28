@@ -1,7 +1,7 @@
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import NavbarNews from "../components/NavbarNews";
-import "../css/style.css";
+import "../css/news.css";
 import "../css/newsNavbar.css";
 
 import img1 from "../assets/news/op1.jpg";
@@ -25,18 +25,20 @@ const newsItems = [
 
 function News() {
     return (
-        <div>
+        <div className="page-container">
             <Header />
             <NavbarNews />
-            <div className="news-container">
-                {newsItems.map((item, index) => (
-                    <div className="card" key={index}>
-                        <img src={item.image} alt={item.title} />
-                        <h3>{item.title}</h3>
-                        <p>{item.subtitle}</p>
-                    </div>
-                ))}
-            </div>
+            <main className="main-content">
+                <div className="news-container">
+                    {newsItems.map((item, index) => (
+                        <div className="card" key={index}>
+                            <img src={item.image} alt={item.title} />
+                            <h3>{item.title}</h3>
+                            <p>{item.subtitle}</p>
+                        </div>
+                    ))}
+                </div>
+            </main>
             <Footer />
         </div>
     );

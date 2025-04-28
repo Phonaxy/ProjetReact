@@ -4,14 +4,6 @@
     color: #3B252C;
 }
 
-.title-news {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 2rem;
-    margin-bottom: 20px;
-    color: #E1BC29;
-    text-align: center;
-}
-
 .filters {
     display: flex;
     flex-wrap: wrap;

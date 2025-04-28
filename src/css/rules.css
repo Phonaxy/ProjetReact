@@ -1,0 +1,62 @@
+/* rules.css */
+
+/* Mise en page en colonne et hauteur minimum sur toute la fenêtre */
+.page-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Le contenu principal s'étend pour occuper l'espace disponible */
+.main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+/* Header et Footer restent de taille fixe */
+header, footer {
+    flex-shrink: 0;
+}
+
+/* Titre centré et dimensionné */
+h1 {
+    text-align: center;
+    font-size: 2rem;
+    margin: 10px 0;
+}
+
+/* Conteneur pour une vidéo responsive */
+.video-container {
+    position: relative;
+    padding-bottom: 56.25%;
+    height: 0;
+    overflow: hidden;
+    background: black;
+    margin-top: 20px;
+    width: 100%;
+    max-width: 800px;
+}
+
+/* Iframe qui s'adapte à la taille du conteneur */
+.video-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* Adaptation du titre et de la vidéo sur petits écrans */
+@media (max-width: 600px) {
+    h1 {
+        font-size: 1.5rem;
+    }
+
+    .video-container {
+        max-width: 95%;
+    }
+}
