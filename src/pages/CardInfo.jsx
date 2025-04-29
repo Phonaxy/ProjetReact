@@ -1,23 +1,20 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Loader from "../components/Loader";
-import "../css/cardinfo.css"; // You will create it after
+import "../css/cardinfo.css";
 
 const CardInfo = () => {
     const location = useLocation();
+    const navigate = useNavigate();
     const [card, setCard] = useState(null);
     const [loading, setLoading] = useState(false);
 
-    const navigate = useNavigate();
-
     const handleBack = () => {
-        navigate(-1); // Go back to the previous page
+        navigate(-1);
     };
 
-    // ✅ Extract the card name from the URL
     const searchParams = new URLSearchParams(location.search);
     const cardName = searchParams.get("card");
 
@@ -36,15 +33,9 @@ const CardInfo = () => {
                 }
 
                 const data = await response.json();
+                const foundCard = data.data.find(c => c.name.toLowerCase() === cardName?.toLowerCase());
 
-                // ✅ Find the card by its name
-                const foundCard = data.data.find(c => c.name.toLowerCase() === cardName.toLowerCase());
-
-                if (foundCard) {
-                    setCard(foundCard);
-                } else {
-                    console.error("Card not found");
-                }
+                setCard(foundCard || null);
                 setLoading(false);
             } catch (error) {
                 console.error("Failed to fetch card:", error);
@@ -105,7 +96,6 @@ const CardInfo = () => {
             <Footer/>
         </div>
     );
-
 };
 
 export default CardInfo;

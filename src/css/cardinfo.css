@@ -1,13 +1,52 @@
 .cardinfo-container {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
-    min-height: 80vh;
     padding: 40px 20px;
+    min-height: 80vh;
 }
 
+/* Back button */
+.cardinfo-back {
+    margin-bottom: 30px;
+}
+
+.cardinfo-back button {
+    background-color: #1a1a1a;
+    color: #E1BC29;
+    border: 1px solid #E1BC29;
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-family: 'Montserrat', sans-serif;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.cardinfo-back button::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle, #e1bc29 0%, transparent 60%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.cardinfo-back button:hover::after {
+    opacity: 0.3;
+}
+
+.cardinfo-back button:hover {
+    background-color: #E1BC29;
+    color: #1a1a1a;
+    box-shadow: 0 0 15px #E1BC29;
+}
+
+/* Card Info Main Window */
 .cardinfo-card {
-    background: #F9F8F8;
+    background: #f9f8f8;
     border: 1px solid rgba(255, 255, 255, 0.1);
     box-shadow: 0 0 30px rgba(90, 90, 255, 0.2), 0 0 50px rgba(90, 90, 255, 0.1);
     border-radius: 16px;
@@ -42,18 +81,28 @@
     flex-direction: column;
     justify-content: center;
     gap: 10px;
+    position: relative;
 }
 
 .cardinfo-details h1 {
     margin-bottom: 10px;
     color: #E15554;
+    font-size: 2rem;
 }
 
 .cardinfo-details p {
-    margin: 4px 0;
+    margin: 6px 0;
     font-size: 1rem;
+    position: relative;
+    transition: all 0.3s ease;
 }
 
+.cardinfo-details p:hover {
+    color: #646cff;
+    text-shadow: 0 0 8px rgba(100, 108, 255, 0.6);
+}
+
+/* Animations */
 @keyframes fadeInCard {
     from { opacity: 0; transform: translateY(20px); }
     to { opacity: 1; transform: translateY(0); }
