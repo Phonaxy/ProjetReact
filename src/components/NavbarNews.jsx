@@ -1,5 +1,5 @@
 import React from "react";
-import "../css/newsNavbar.css";
+import "../css/navbar.css";
 
 const categories = [
     "Tout",

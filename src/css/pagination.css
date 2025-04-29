@@ -22,7 +22,7 @@
 }
 
 .page-button:hover:not(:disabled) {
-    background-color: #E15554;
+    background-color: #2274A5;
 }
 
 .page-button.active {
