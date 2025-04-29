@@ -11,12 +11,13 @@ const CardInfo = () => {
     const [card, setCard] = useState(null);
     const [loading, setLoading] = useState(false);
 
-    const handleBack = () => {
-        navigate(-1);
-    };
-
     const searchParams = new URLSearchParams(location.search);
     const cardName = searchParams.get("card");
+    const previousPage = searchParams.get("page") || 1;
+
+    const handleBack = () => {
+        navigate(`/details?page=${previousPage}`);
+    };
 
     useEffect(() => {
         const fetchCardData = async () => {
@@ -78,7 +79,7 @@ const CardInfo = () => {
 
                 <div className="cardinfo-card">
                     <div className="cardinfo-image-wrapper">
-                        <img src={card.images.large} alt={card.name} className="cardinfo-image"/>
+                        <img src={card.images.large} alt={card.name} className="cardinfo-image" />
                     </div>
                     <div className="cardinfo-details">
                         <h1>{card.name}</h1>
@@ -87,13 +88,13 @@ const CardInfo = () => {
                         <p><strong>Power:</strong> {card.power}</p>
                         <p><strong>Color:</strong> {card.color}</p>
                         <p><strong>Family:</strong> {card.family}</p>
-                        <p><strong>Ability:</strong> <span dangerouslySetInnerHTML={{__html: card.ability}}/></p>
+                        <p><strong>Ability:</strong> <span dangerouslySetInnerHTML={{ __html: card.ability }} /></p>
                         {card.trigger && <p><strong>Trigger:</strong> {card.trigger}</p>}
                         <p><strong>Set:</strong> {card.set.name}</p>
                     </div>
                 </div>
             </div>
-            <Footer/>
+            <Footer />
         </div>
     );
 };

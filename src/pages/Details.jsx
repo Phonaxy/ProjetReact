@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Loader from "../components/Loader";
@@ -10,76 +10,87 @@ import "../css/pagination.css";
 
 const Details = () => {
     const [cards, setCards] = useState([]);
-    const [filteredCards, setFilteredCards] = useState([]);
     const [loading, setLoading] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
+    const [filters, setFilters] = useState({});
     const navigate = useNavigate();
+    const location = useLocation();
 
     const cardsPerPage = 20;
 
+    // Prendre en compte la page depuis l'URL au premier chargement
     useEffect(() => {
-        const fetchCards = async () => {
+        const searchParams = new URLSearchParams(location.search);
+        const pageFromUrl = parseInt(searchParams.get("page")) || 1;
+        setCurrentPage(pageFromUrl);
+    }, []);
+
+    const fetchCards = async (page = 1, filters = {}) => {
+        try {
+            setLoading(false);
+            let query = `/api/api/one-piece/cards?page=${page}&limit=${cardsPerPage}`;
+
+            const response = await fetch(query, {
+                headers: {
+                    "x-api-key": "eed72a5d1b38bc12224563f168a09598a12403d84f50363eda98d06d56ebb3b2"
+                }
+            });
+
+            if (!response.ok) throw new Error("Erreur réseau");
+
+            const data = await response.json();
+            setCards(data.data);
+            setTotalPages(Math.ceil(data.total / cardsPerPage));
+            setLoading(true);
+        } catch (error) {
+            console.error("Erreur chargement cartes :", error);
+        }
+    };
+
+    useEffect(() => {
+        fetchCards(currentPage, filters);
+    }, [currentPage, filters]);
+
+    const [allCards, setAllCards] = useState([]);
+    useEffect(() => {
+        const fetchAllCards = async () => {
             try {
-                setLoading(false);
-                const response = await fetch(`/api/api/one-piece/cards?page=1&limit=1000`, {
+                const res = await fetch(`/api/api/one-piece/cards?page=1&limit=1000`, {
                     headers: {
                         "x-api-key": "eed72a5d1b38bc12224563f168a09598a12403d84f50363eda98d06d56ebb3b2"
                     }
                 });
-
-                if (!response.ok) throw new Error("Erreur réseau");
-
-                const data = await response.json();
-                setCards(data.data);
-                setFilteredCards(data.data);
-                setLoading(true);
-            } catch (error) {
-                console.error("Erreur chargement cartes :", error);
+                const data = await res.json();
+                setAllCards(data.data);
+            } catch (err) {
+                console.error("Erreur récupération filtres", err);
             }
         };
 
-        fetchCards();
+        fetchAllCards();
     }, []);
 
     const getUnique = (keyFn) =>
-        [...new Set(cards.map(keyFn).filter(Boolean))].sort();
+        [...new Set(allCards.map(keyFn).filter(Boolean))].sort();
 
     const editions = getUnique((card) => card.set?.name);
     const types = getUnique((card) => card.type);
     const rarities = getUnique((card) => card.rarity);
     const colors = getUnique((card) => card.color);
     const attributes = getUnique((card) => card.attribute?.name);
-    const rawFamilies = cards
+    const rawFamilies = allCards
         .flatMap(card => card.family?.split("/").map(f => f.trim()) || []);
     const families = [...new Set(rawFamilies)].sort();
 
-    const handleFilterChange = (filters) => {
-        const filtered = cards.filter((card) => {
-            const matchName = filters.name ? card.name?.toLowerCase().includes(filters.name.toLowerCase()) : true;
-            const matchEdition = filters.edition ? card.set?.name === filters.edition : true;
-            const matchType = filters.type ? card.type === filters.type : true;
-            const matchRarity = filters.rarity ? card.rarity === filters.rarity : true;
-            const matchColor = filters.color ? card.color === filters.color : true;
-            const matchAttr = filters.attribute ? card.attribute?.name === filters.attribute : true;
-            const matchFamily = filters.family
-                ? card.family?.toLowerCase().includes(filters.family.toLowerCase())
-                : true;
-
-            return matchName && matchEdition && matchType && matchRarity && matchColor && matchAttr && matchFamily;
-        });
-
-        setFilteredCards(filtered);
-        setCurrentPage(1);
+    const handleFilterChange = (newFilters) => {
+        setFilters(newFilters);
+        setCurrentPage(1); // Revenir à la première page après filtrage
     };
-
-    const indexOfLastCard = currentPage * cardsPerPage;
-    const indexOfFirstCard = indexOfLastCard - cardsPerPage;
-    const currentCards = filteredCards.slice(indexOfFirstCard, indexOfLastCard);
-    const totalPages = Math.ceil(filteredCards.length / cardsPerPage);
 
     const handleCardClick = (cardName) => {
         const encodedName = encodeURIComponent(cardName);
-        navigate(`/cardinfo?card=${encodedName}`);
+        navigate(`/cardinfo?card=${encodedName}&page=${currentPage}`);
     };
 
     return (
@@ -105,8 +116,8 @@ const Details = () => {
                 ) : (
                     <>
                         <div className="card-grid">
-                            {currentCards.length > 0 ? (
-                                currentCards.map((card) => (
+                            {cards.length > 0 ? (
+                                cards.map((card) => (
                                     <div key={card.id} className={`card-item aura-${card.color?.toLowerCase() || "default"}`}>
                                         <span className="particle"></span>
                                         <span className="particle"></span>
@@ -131,7 +142,10 @@ const Details = () => {
                             <Pagination
                                 currentPage={currentPage}
                                 totalPages={totalPages}
-                                onPageChange={setCurrentPage}
+                                onPageChange={(page) => {
+                                    setCurrentPage(page);
+                                    navigate(`/details?page=${page}`);
+                                }}
                             />
                         )}
                     </>
