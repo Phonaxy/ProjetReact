@@ -2,7 +2,7 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import NavbarNews from "../components/NavbarNews";
 import "../css/news.css";
-import "../css/newsNavbar.css";
+import "../css/navbar.css";
 
 import img1 from "../assets/news/op1.jpg";
 import img2 from "../assets/news/op2.jpg";
