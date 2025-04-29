@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom"; // ✅ import useNavigate
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Loader from "../components/Loader";
 import Pagination from "../components/Pagination";
 import "../css/details.css";
-import "../css/aura.css";
+/*import "../css/aura.css";*/
 import "../css/pagination.css";
 
 const Details = () => {
@@ -12,6 +13,7 @@ const Details = () => {
     const [loading, setLoading] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
     const totalPages = 20;
+    const navigate = useNavigate(); // ✅ Initialize navigation
 
     useEffect(() => {
         const fetchCards = async () => {
@@ -38,6 +40,12 @@ const Details = () => {
         fetchCards();
     }, [currentPage]);
 
+    // ✅ Function to handle click on a card
+    const handleCardClick = (cardName) => {
+        const encodedName = encodeURIComponent(cardName); // Handle spaces/special chars
+        navigate(`/cardinfo?card=${encodedName}`);
+    };
+
     return (
         <div>
             <Header />
@@ -57,14 +65,18 @@ const Details = () => {
                                 <span className="particle"></span>
                                 <span className="particle"></span>
 
-                                <button className="card-button" aria-label={`Afficher la carte ${card.name}`}>
+                                {/* ✅ Add onClick to navigate */}
+                                <button
+                                    className="card-button"
+                                    aria-label={`Afficher la carte ${card.name}`}
+                                    onClick={() => handleCardClick(card.name)}
+                                >
                                     <img src={card.images.large} alt={card.name} />
                                 </button>
                             </div>
                         ))}
                     </div>
 
-                    {/*Affichage de la pagination */}
                     <Pagination
                         currentPage={currentPage}
                         totalPages={totalPages}
