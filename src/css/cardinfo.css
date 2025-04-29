@@ -1,0 +1,78 @@
+.cardinfo-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+    padding: 40px 20px;
+}
+
+.cardinfo-card {
+    background: #F9F8F8;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 30px rgba(90, 90, 255, 0.2), 0 0 50px rgba(90, 90, 255, 0.1);
+    border-radius: 16px;
+    display: flex;
+    padding: 30px;
+    gap: 30px;
+    width: 90%;
+    max-width: 1200px;
+    backdrop-filter: blur(6px);
+    animation: fadeInCard 0.8s ease;
+}
+
+.cardinfo-image-wrapper {
+    flex: 0 0 250px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.cardinfo-image {
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+.cardinfo-details {
+    flex: 1;
+    color: #3B252C;
+    font-family: 'Montserrat', sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+}
+
+.cardinfo-details h1 {
+    margin-bottom: 10px;
+    color: #E15554;
+}
+
+.cardinfo-details p {
+    margin: 4px 0;
+    font-size: 1rem;
+}
+
+@keyframes fadeInCard {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* 📱 Responsive for mobile */
+@media (max-width: 768px) {
+    .cardinfo-card {
+        flex-direction: column;
+        align-items: center;
+        padding: 20px;
+    }
+
+    .cardinfo-image-wrapper {
+        flex: none;
+        width: 70%;
+    }
+
+    .cardinfo-details {
+        text-align: center;
+    }
+}
