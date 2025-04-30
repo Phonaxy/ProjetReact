@@ -9,6 +9,7 @@ import "../css/details.css";
 import "../css/pagination.css";
 
 const Details = () => {
+    const [allCards, setAllCards] = useState([]);
     const [cards, setCards] = useState([]);
     const [loading, setLoading] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
@@ -19,40 +20,13 @@ const Details = () => {
 
     const cardsPerPage = 20;
 
-    // Prendre en compte la page depuis l'URL au premier chargement
     useEffect(() => {
         const searchParams = new URLSearchParams(location.search);
         const pageFromUrl = parseInt(searchParams.get("page")) || 1;
         setCurrentPage(pageFromUrl);
     }, []);
 
-    const fetchCards = async (page = 1, filters = {}) => {
-        try {
-            setLoading(false);
-            let query = `/api/api/one-piece/cards?page=${page}&limit=${cardsPerPage}`;
-
-            const response = await fetch(query, {
-                headers: {
-                    "x-api-key": "eed72a5d1b38bc12224563f168a09598a12403d84f50363eda98d06d56ebb3b2"
-                }
-            });
-
-            if (!response.ok) throw new Error("Erreur réseau");
-
-            const data = await response.json();
-            setCards(data.data);
-            setTotalPages(Math.ceil(data.total / cardsPerPage));
-            setLoading(true);
-        } catch (error) {
-            console.error("Erreur chargement cartes :", error);
-        }
-    };
-
-    useEffect(() => {
-        fetchCards(currentPage, filters);
-    }, [currentPage, filters]);
-
-    const [allCards, setAllCards] = useState([]);
+    // Récupération de toutes les cartes
     useEffect(() => {
         const fetchAllCards = async () => {
             try {
@@ -64,12 +38,43 @@ const Details = () => {
                 const data = await res.json();
                 setAllCards(data.data);
             } catch (err) {
-                console.error("Erreur récupération filtres", err);
+                console.error("Erreur récupération cartes :", err);
             }
         };
 
         fetchAllCards();
     }, []);
+
+    // Fonction de filtrage local
+    const applyFilters = (cards, filters) => {
+        return cards.filter((card) => {
+            const matchName = filters.name ? card.name.toLowerCase().includes(filters.name.toLowerCase()) : true;
+            const matchEdition = filters.edition ? card.set?.name === filters.edition : true;
+            const matchType = filters.type ? card.type === filters.type : true;
+            const matchRarity = filters.rarity ? card.rarity === filters.rarity : true;
+            const matchColor = filters.color ? card.color === filters.color : true;
+            const matchAttribute = filters.attribute ? card.attribute?.name === filters.attribute : true;
+            const matchFamily = filters.family
+                ? card.family?.split("/").map(f => f.trim()).includes(filters.family)
+                : true;
+
+            return matchName && matchEdition && matchType && matchRarity && matchColor && matchAttribute && matchFamily;
+        });
+    };
+
+    // Appliquer les filtres à chaque changement
+    useEffect(() => {
+        if (allCards.length === 0) return;
+
+        setLoading(false);
+        const filtered = applyFilters(allCards, filters);
+        const startIndex = (currentPage - 1) * cardsPerPage;
+        const paginated = filtered.slice(startIndex, startIndex + cardsPerPage);
+
+        setCards(paginated);
+        setTotalPages(Math.ceil(filtered.length / cardsPerPage));
+        setLoading(true);
+    }, [allCards, currentPage, filters]);
 
     const getUnique = (keyFn) =>
         [...new Set(allCards.map(keyFn).filter(Boolean))].sort();
